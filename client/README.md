@@ -1,166 +1,106 @@
-<h1><a href="https://ui-lib.com/downloads/matx-react-dashboard/">Matx React Material Design Admin Dashboard Template</a></h1>
+# React Material Admin — Material-UI Dashboard Template
 
-<a href="https://matx-react-free.vercel.app/"><img alt="Matx React Admin" src="https://ui-lib.com/blog/wp-content/uploads/2021/09/matx-github.png" /></a>
+Built with [React](https://facebook.github.io/react/), [Material-UI](https://material-ui.com), [React Router](https://reacttraining.com/react-router/).
+**No jQuery and Bootstrap!**
 
+**This version uses React 16.14.0, React Router v5, MaterialUI v4, built with React Hooks and React Context (No Redux)**
 
-<p>MatX is a full-featured React Material UI Admin Dashboard template. MatX is built with React, Redux & Material UI We implemented all the features you might need to start a new Web application. The free version includes all Material UI components, Form elements, and validation, JWT authentication, Sign in, sign up pages,  Vertical navigation, Lazy loading, Code splitting.</p>
+[View Demo](https://flatlogic.com/templates/react-material-admin/demo) | [Download](https://github.com/flatlogic/react-material-admin/archive/master.zip) | [More templates](https://flatlogic.com/templates) | [Support forum](https://flatlogic.com/forum)
 
-<h2>Features</h2>
-<table>
-<tr>
-<th>MatX Free</th>
-<th>MatX Pro</th>
-</tr>
-<tr>
-<td>
-<a href="https://matx-react-free.vercel.app/">Live Preview</a> <br>
-<a href="https://ui-lib.com/downloads/matx-react-dashboard/">Download MatX</a>
-</td>
-<td>
-<a href="http://matx-react.ui-lib.com/">Live Preview</a> <br>
-<a href="https://ui-lib.com/downloads/matx-pro-react-admin/">Get MatX Pro</a>
-</td>
-</tr>
-<tr>
-<td valign="top">
-<ul>
-  <li>JWT authentication</li>
-  <li>Role based authentication</li>
-  <li>Lazy loading components</li>
-  <li>Code splitting</li>
-  <li>Dashboard Analytics</li>
-  <li>UI kits
-    <ul>
-      <li>Autocomplete</li>
-      <li>Buttons</li>
-      <li>Checkbox</li>
-      <li>Dialog</li>
-      <li>Expansion panel</li>
-      <li>Menu</li>
-      <li>Progress</li>
-      <li>Datetime picker</li>
-      <li>Radio</li>
-      <li>Switch</li>
-      <li>Slider</li>
-      <li>Snackbar</li>
-      <li>Data table</li>
-    </ul>
-  </li>
-  <li>Forms
-    <ul>
-      <li>Basic</li>
-      <li>Rich text editor</li>
-    </ul>
-  </li>
-  <li>eChart</li>
-  <li>Session pages
-    <ul>
-      <li>Sign in</li>
-      <li>Sign up</li>
-      <li>Forgot password</li>
-      <li>Error page</li>
-    </ul>
-  </li>
-  <li>Drag and drop</li>
-  <li>Google map</li>
-  <li>Utilities
-    <ul>
-      <li>Color</li>
-      <li>Spacing</li>
-      <li>Typography</li>
-      <li>Display</li>
-    </ul>
-  </li>
-  <li>Multi level menu</li>
-</ul>
-</td>
-<td valign="top">
-<ul>
-  <li>All features of Matx free +</li>
-  <li>Firebase authentication</li>
-  <li>Auth0 authentication</li>
-  <li>Horizontal navigation</li>
-  <li>Pages
-    <ul>
-        <li>Customer List</li>
-        <li>Customer View/Add/Edit</li>
-        <li>Product List</li>
-        <li>Customer View/Add/Edit</li>
-        <li>Order List</li>
-        <li>Order View/Add/Edit</li>
-        <li>Help center</li>
-        <li>FAQ</li>
-        <li>Pricings</li>
-        <li>User List/Grid/Row</li>
-    </ul>
-    
-  </li>
-  <li>Forms
-    <ul>
-      <li>Order form</li>
-      <li>Invoice form</li>
-      <li>Property listing form</li>
-      <li>Single upload</li>
-      <li>Multiple upload</li>
-      <li>Wizard</li>
-    </ul>
-  </li>
-  <li>Working Apps
-    <ul>
-      <li>CRUD table</li>
-      <li>Shop/eCommerce</li>
-      <li>Scrum board</li>
-      <li>Invoice builder</li>
-      <li>Event calendar</li>
-      <li>Chat</li>
-      <li>Inbox</li>
-      <li>Todo</li>
-    </ul>
-  </li>
-  <li>Lists
-    <ul>
-      <li>Row/Grid List</li>
-      <li>Infinite scroll list</li>
-    </ul>
-  </li>
-  <li>Charts
-    <ul>
-      <li>eChart</li>
-      <li>Rechart</li>
-      <li>Victory chart</li>
-      <li>React vis</li>
-    </ul>
-  </li>
-  <li>User profile</li>
-  <li>6 month support</li>
-  
-</ul>
-</td>
-</tr>
-</table>
+[![image](https://user-images.githubusercontent.com/24964748/55800639-df780300-5adc-11e9-84b7-7c2437088516.png)](https://flatlogic.com/admin-dashboards/react-material-admin/demo)
 
+## Full Version
 
-<h2 id="availablescripts">Getting started</h2>
+This is a limited version of [**Full React Material Admin**](https://flatlogic.com/templates/react-material-admin-full/demo) with more components, pages and theme support.
 
-<p>In the project directory, you can run:</p>
+## Features
 
-<h3 id="npmstart"><code>npm start</code></h3>
+- React (**16.14.0**)
+- React Hooks
+- React Context
+- **No jQuery and Bootstrap!**
+- Mobile friendly layout (responsive)
+- Create-react-app under the hood
+- React Router v5
+- Material-UI v4
+- Modular Architecture
+- CSS-in-JS styles
+- Webpack build
+- Stylish, clean, responsive layout
+- Authentication
 
-<p>Runs the app in the development mode.<br>
-Open <a href="http://localhost:3000">http://localhost:3000</a> to view it in the browser.</p>
+## Pages
 
-<p>The page will reload if you make edits.<br>
-You will also see any lint errors in the console.</p>
+We have implemented some basic pages, so you can see our template in action.
 
-<h3 id="npmrunbuild"><code>npm run build</code></h3>
+- Dashboard
+- Typography
+- Tables
+- Notifications
+- Charts
+- Icons
+- Maps
+- Login
+- Error
 
-<p>Builds the app for production to the <code>build</code> folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.</p>
+## Quick Start
 
-<p>The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!</p>
+#### 1. Get the latest version
 
-<h3>Download</h3>
-Download From <a href="https://ui-lib.com/downloads/matx-react-dashboard/">official website</a>
+You can start by cloning the latest version of React Dashboard on your
+local machine by running:
 
-<h3>For questions and support mail us at <a href="mailto:support@ui-lib.com">support@ui-lib.com</a></h3>
+```shell
+$ git clone https://github.com/flatlogic/react-material-admin.git MyApp
+$ cd MyApp
+```
+
+#### 2. Run `yarn install`
+
+This will install both run-time project dependencies and developer tools listed
+in [package.json](package.json) file.
+
+#### 3. Run `yarn start`
+
+Runs the app in the development mode.
+
+Open http://localhost:3000 to view it in the browser. Whenever you modify any of the source files inside the `/src` folder,
+the module bundler ([Webpack](http://webpack.github.io/)) will recompile the
+app on the fly and refresh all the connected browsers.
+
+#### 4. Run `yarn build`
+
+Builds the app for production to the build folder.
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.
+Your app is ready to be deployed!
+
+## Support
+
+For any additional information please go to our [**support forum**](https://flatlogic.com/forum) and raise your questions or feedback provide there. We highly appreciate your participation!
+
+## How can I support developers?
+
+- Star our GitHub repo :star:
+- [Tweet about it](https://twitter.com/intent/tweet?text=Amazing%20dashboard%20built%20with%20NodeJS,%20React%20and%20Bootstrap!&url=https://github.com/flatlogic/react-material-template&via=flatlogic).
+- Create pull requests, submit bugs, suggest new features or documentation updates :wrench:
+- Follow [@flatlogic on Twitter](https://twitter.com/flatlogic).
+- Subscribe to Flatlogic newsletter at [flatlogic.com](https://flatlogic.com/)
+- Like our page on [Facebook](https://www.facebook.com/flatlogic/) :thumbsup:
+
+## More from Flatlogic
+
+- [React Native Starter](https://github.com/flatlogic/react-native-starter) - 🚀 A powerful react native starter template that bootstraps development of your mobile application
+- [Sing App](https://github.com/flatlogic/sing-app) - 💥 Free and open-source admin dashboard template built with Bootstrap 4
+- [Awesome Bootstrap Checkboxes & Radios](https://github.com/flatlogic/awesome-bootstrap-checkbox) - ✅ Pure css way to make inputs look prettier
+- [React Dashboard](https://github.com/flatlogic/react-dashboard) - 🔥 React Dashboard - isomorphic admin dashboard template with GraphQL
+- [Light Blue Dashboard](https://github.com/flatlogic/light-blue-dashboard) - 💦 Free and open-source admin dashboard template built with Bootstrap
+
+## Premium themes
+
+Looking for premium themes and templates? Check out more [admin dashboard templates at flatlogic.com](https://flatlogic.com/admin-dashboards).
+
+## License
+
+[MIT](https://github.com/flatlogic/react-material-dashboard/blob/master/LICENSE.txt).

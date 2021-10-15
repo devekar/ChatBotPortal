@@ -1,6 +1,6 @@
 # ChatBot Service
 
-# Getting started
+## Getting started
 In the project directory, you can run:
 ```
 npm install
@@ -18,4 +18,5 @@ npm start
 This starts the React app server at localhost:3000
 
 
-# Production
+## Production
+
