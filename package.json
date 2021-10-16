@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "set DEBUG=app & nodemon app.js",
-    "debug": "set DEBUG=* & nodemon app.js",
+    "debug": "set DEBUG=* & nodemon --inspect app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,12 +19,17 @@
   },
   "homepage": "https://github.com/devekar/ChatBotService#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "chalk": "^4.1.2",
     "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "mongoose": "^6.0.11",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.13",
+    "request": "^2.88.2"
   },
   "nodemonConfig": {
     "restartable": "rs",
