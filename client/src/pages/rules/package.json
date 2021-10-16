@@ -1,6 +1,6 @@
 {
-  "name": "Icons",
+  "name": "Rules",
   "version": "0.0.0",
-  "main": "Icons.js",
+  "main": "Rules.js",
   "private": true
 }

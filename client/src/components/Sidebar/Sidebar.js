@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
   Home as HomeIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
+  FilterNone as FilterNoneIcon,
+  Check as CheckIcon,
   ArrowBack as ArrowBackIcon,
+  Forum as ForumIcon,
+  People as PeopleIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -31,26 +31,21 @@ const structure = [
     id: 1,
     label: "Conversations",
     link: "/app/chat",
-    icon: <TypographyIcon />,
+    icon: <ForumIcon />,
   },
   {
     id: 2,
     label: "Content",
-    link: "/app/notifications",
-    icon: <NotificationsIcon />,
+    link: "/app/content",
+    icon: <FilterNoneIcon />,
   },
   {
     id: 3,
     label: "Rules",
-    link: "/app/ui",
-    icon: <UIElementsIcon />,
-    children: [
-      { label: "Icons", link: "/app/ui/icons" },
-      { label: "Charts", link: "/app/ui/charts" },
-      { label: "Maps", link: "/app/ui/maps" },
-    ],
+    link: "/app/rules",
+    icon: <CheckIcon />,
   },
-  { id: 4, label: "Members", link: "/app/tables", icon: <TableIcon /> },
+  { id: 4, label: "Members", link: "/app/members", icon: <PeopleIcon /> },
 ];
 
 function Sidebar({ location }) {

@@ -1,0 +1,6 @@
+{
+  "name": "conversations",
+  "version": "0.0.0",
+  "main": "Conversations.js",
+  "private": true
+}

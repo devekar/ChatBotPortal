@@ -2,7 +2,6 @@ import React from "react";
 import {
   Route,
   Switch,
-  Redirect,
   withRouter,
 } from "react-router-dom";
 import classnames from "classnames";
@@ -12,8 +11,7 @@ import Icon from '@mdi/react'
 //icons
 import {
   mdiFacebook as FacebookIcon,
-  mdiTwitter as TwitterIcon,
-  mdiGithub as GithubIcon,
+  mdiYoutube as YoutubeIcon
 } from '@mdi/js'
 
 // styles
@@ -25,12 +23,11 @@ import Sidebar from "../Sidebar";
 
 // pages
 import Dashboard from "../../pages/dashboard";
-import Chat from "../../pages/chat";
-import Notifications from "../../pages/notifications";
-import Maps from "../../pages/maps";
-import Tables from "../../pages/tables";
-import Icons from "../../pages/icons";
-import Charts from "../../pages/charts";
+import Conversations from "../../pages/conversations";
+import Content from "../../pages/content";
+import Rules from "../../pages/rules";
+import Members from "../../pages/members";
+
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -54,17 +51,10 @@ function Layout(props) {
             <div className={classes.fakeToolbar} />
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/chat" component={Chat} />
-              <Route path="/app/tables" component={Tables} />
-              <Route path="/app/notifications" component={Notifications} />
-              <Route
-                exact
-                path="/app/ui"
-                render={() => <Redirect to="/app/ui/icons" />}
-              />
-              <Route path="/app/ui/maps" component={Maps} />
-              <Route path="/app/ui/icons" component={Icons} />
-              <Route path="/app/ui/charts" component={Charts} />
+              <Route path="/app/chat" component={Conversations} />
+              <Route path="/app/content" component={Content} />
+              <Route path="/app/rules" component={Rules} />
+              <Route path="/app/members" component={Members} />
             </Switch>
             <Box
               mt={5}
@@ -76,32 +66,24 @@ function Layout(props) {
               <div>
                 <Link
                   color={'primary'}
-                  href={'https://flatlogic.com/'}
+                  href={''}
                   target={'_blank'}
                   className={classes.link}
                 >
-                  Flatlogic
+                  TurnTheBus
                 </Link>
                 <Link
                   color={'primary'}
-                  href={'https://flatlogic.com/about'}
+                  href={''}
                   target={'_blank'}
                   className={classes.link}
                 >
                   About Us
                 </Link>
-                <Link
-                  color={'primary'}
-                  href={'https://flatlogic.com/blog'}
-                  target={'_blank'}
-                  className={classes.link}
-                >
-                  Blog
-                </Link>
               </div>
               <div>
                 <Link
-                  href={'https://www.facebook.com/flatlogic'}
+                  href={''}
                   target={'_blank'}
                 >
                   <IconButton aria-label="facebook">
@@ -113,27 +95,12 @@ function Layout(props) {
                   </IconButton>
                 </Link>
                 <Link
-                  href={'https://twitter.com/flatlogic'}
+                  href={''}
                   target={'_blank'}
                 >
-                  <IconButton aria-label="twitter">
+                  <IconButton aria-label="youtube">
                     <Icon
-                      path={TwitterIcon}
-                      size={1}
-                      color="#6E6E6E99"
-                    />
-                  </IconButton>
-                </Link>
-                <Link
-                  href={'https://github.com/flatlogic'}
-                  target={'_blank'}
-                >
-                  <IconButton
-                    aria-label="github"
-                    style={{marginRight: -12}}
-                  >
-                    <Icon
-                      path={GithubIcon}
+                      path={YoutubeIcon}
                       size={1}
                       color="#6E6E6E99"
                     />
