@@ -1,8 +1,8 @@
 var express = require("express");
-// var contentRouter = require("./content");
+ var messageRouter = require("./message");
 
 var app = express();
 
-//app.use("/content/", contentRouter);
+app.use("/message/", messageRouter);
 
 module.exports = app;

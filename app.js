@@ -1,4 +1,5 @@
 const express = require('express');
+var bodyParser = require('body-parser')
 const chalk = require('chalk'); // for coloring output
 const debug = require('debug')('app'); // for output in debug mode
 const morgan = require('morgan'); // for HTTP logging
@@ -7,6 +8,7 @@ dotenv.config();
 const path = require('path');
 var apiRouter = require("./routes/api");
 var indexRouter = require("./routes/index");
+
 
 // DB connection
 var MONGODB_URL = process.env.MONGODB_URL;
@@ -29,6 +31,11 @@ var db = mongoose.connection;
 const PORT = process.env.PORT || 5454; //get environment variable passed from package.json
 const app = express();
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/'))); // specify directory for web pages
 
