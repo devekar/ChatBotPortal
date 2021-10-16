@@ -1,32 +1,26 @@
 const express = require('express');
-const debug = require('debug')('app:authRouter');
-const { MongoClient, ObjectID } = require('mongodb');
+const debug = require('debug')('app:auth');
 const passport = require('passport');
+const userschema = require('../models/UserModel');
 
 const auth = express.Router();
-auth.route('/signUp').post((req, res) => {
+auth.route('/signUp')
+.get((req, res) => {
+    res.render('signup');
+})
+.post((req, res) => {
     // create user
     const {fullname, username, password} = req.body;
-    const dbName = 'login';
-    const url = "mongodb+srv://rlnUser:B8GmXJ7kYwh4xfkH@chatbotservice.ahwqs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
     (async function addUser(){
-        let client;
         try{
-            client = await MongoClient.connect(url);
             const admin = false;
-            const db = client.db(dbName);
             const user = {fullname, username, password, admin};
-            const results = await db.collection('users').insertOne(user);
-            debug(results);
-            // login and redirect to dashboard
-            req.login(results, ()=>{
-                res.redirect('/index');
-            })
+            const results = new userschema(user).save();
+            res.render('signin');
         } catch (error) {
             debug(error);
         } finally {
-            client.close();
         }
     }());
 });
@@ -35,8 +29,8 @@ auth.route('/signIn').get((req, res) => {
     res.render('signin');
 })
 .post(passport.authenticate('local', {
-    successRedirect: '/index',
-    failureRedirect: '/auth/signIn'
+    successRedirect: '/',
+    failureRedirect: '/auth/signIn',
 }));
 
 

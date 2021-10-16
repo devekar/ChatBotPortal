@@ -12,25 +12,19 @@ const path = require('path');
 var apiRouter = require("./routes/api");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
+var dbUtil = require("./helpers/dbUtil")
 
 
 // DB connection
-var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017";
+var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/testdb";
 console.log("Mango DB connection string ", MONGODB_URL);
-var mongoose = require("mongoose");
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-	//don't show the log when it is test
-	if(process.env.NODE_ENV !== "test") {
-		console.log("Connected to %s", MONGODB_URL);
-		console.log("App is running ... \n");
-		console.log("Press CTRL + C to stop the process. \n");
-	}
-})
-	.catch(err => {
+
+dbUtil.connectToServer(MONGODB_URL, function( err ) {
+	if (err) {
 		console.error("App starting error:", err.message);
-		process.exit(1);
-	});
-var db = mongoose.connection;
+        process.exit(1);
+	}
+});
 
 const PORT = process.env.PORT || 5454; //get environment variable passed from package.json
 const app = express();
