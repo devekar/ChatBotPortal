@@ -10,7 +10,6 @@ const session = require('express-session');
 dotenv.config();
 const path = require('path');
 var apiRouter = require("./routes/api");
-var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var dbUtil = require("./helpers/dbUtil")
 
@@ -45,10 +44,10 @@ app.set('view engine', 'ejs')
 
 
 //Route Prefixes
-app.use("/", indexRouter);
 app.use("/api/", apiRouter);
 app.use("/auth", authRouter);
 
+/*
 app.use((req,res,next) => {
 	if(req.user) {
 		next();
@@ -56,9 +55,10 @@ app.use((req,res,next) => {
 		res.redirect('auth/signIn');
 	}
 });
+*/
 
 app.get('/', (req, res) => {
-    res.render('index', {title: 'TurnTheBus Virtual Assistant', data: ['a', 'b', 'c'] });
+    res.render('index', {title: 'TurnTheBus Virtual Assistant Portal', data: ['a', 'b', 'c'] });
 });
 
 app.listen(PORT, () => {

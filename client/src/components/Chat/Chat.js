@@ -21,9 +21,9 @@ class Chat extends React.Component {
     }
     
     componentDidMount() {
-        axios.get(`/phoneusers`)
+        axios.get(`/api/phoneusers/`)
             .then(res => {
-                const phoneUsers = res.data.data.children.map(obj => obj.data);
+                const phoneUsers = res.data;
                 this.setState({ phoneUsers });
             });
     }
@@ -35,13 +35,21 @@ class Chat extends React.Component {
             <div>
                 <Grid container component={Paper} className={classes.chatSection}>            
                     <Grid item xs={3} className={classes.borderRight500}>
-
                         <List>
+                            {this.state.phoneUsers.map(user =>
+                                <ListItem button key={user.name}>
+                                    <ListItemIcon>
+                                        <Avatar alt={user.name} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={user.name} />
+                                </ListItem>                               
+                            )}
+
                             <ListItem button key="RemySharp">
                                 <ListItemIcon>
                                     <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
                                 </ListItemIcon>
-                                <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
+                                <ListItemText primary="Remy Sharp">Remy Sharp1</ListItemText>
                             </ListItem>
                             <ListItem button key="Alice">
                                 <ListItemIcon>
