@@ -15,10 +15,13 @@ var dbUtil = require("./helpers/dbUtil")
 
 
 // DB connection
-var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/testdb";
-console.log("Mango DB connection string ", MONGODB_URL);
+var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/";
+var MONGODB_DB = process.env.MONGODB_DB || "testdb"
 
-dbUtil.connectToServer(MONGODB_URL, function( err ) {
+console.log("Mongo DB connection string ", MONGODB_URL);
+console.log("Mongo DB database ", MONGODB_DB);
+
+dbUtil.connectToServer(MONGODB_URL, MONGODB_DB, function( err ) {
 	if (err) {
 		console.error("App starting error:", err.message);
         process.exit(1);

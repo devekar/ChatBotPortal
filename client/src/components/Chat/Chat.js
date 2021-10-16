@@ -17,15 +17,24 @@ import axios from 'axios';
 
 class Chat extends React.Component {
     state = {
-        phoneUsers: []
+        phoneUsers: [],
+        messages: []
     }
     
     componentDidMount() {
-        axios.get(`/api/phoneusers/`)
+        axios.get(`/api/phoneusers`)
             .then(res => {
                 const phoneUsers = res.data;
                 this.setState({ phoneUsers });
             });
+    }
+
+    getMessages(user) {
+        axios.get(`/api/messages`, { params: { user: user } })
+        .then(res => {
+            const messages = res.data;
+            this.setState({ messages });
+        });
     }
 
     render() {
@@ -36,12 +45,12 @@ class Chat extends React.Component {
                 <Grid container component={Paper} className={classes.chatSection}>            
                     <Grid item xs={3} className={classes.borderRight500}>
                         <List>
-                            {this.state.phoneUsers.map(user =>
-                                <ListItem button key={user.name}>
+                            {this.state.phoneUsers.map(phoneUser =>
+                                <ListItem button key={phoneUser.name} onClick={()=>{this.getMessages(phoneUser._id)}}>
                                     <ListItemIcon>
-                                        <Avatar alt={user.name} />
+                                        <Avatar alt={phoneUser.name} />
                                     </ListItemIcon>
-                                    <ListItemText primary={user.name} />
+                                    <ListItemText primary={phoneUser.name} />
                                 </ListItem>                               
                             )}
 
@@ -71,7 +80,7 @@ class Chat extends React.Component {
                             <ListItem key="1">
                                 <Grid container>
                                     <Grid item xs={12}>
-                                        <ListItemText align="right" primary="Hey man, What's up ?"></ListItemText>
+                                        <ListItemText align="right" primary="Hey, What's up ?"></ListItemText>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <ListItemText align="right" secondary="09:30"></ListItemText>

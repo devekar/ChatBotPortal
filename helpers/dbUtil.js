@@ -4,8 +4,8 @@ const debug = require('debug');
 var db;
 module.exports = {
 
-    connectToServer: function(url, callback) {
-        mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+    connectToServer: function(url, dbName, callback) {
+        mongoose.connect(url, { dbName: dbName, useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
             //don't show the log when it is test
             if(process.env.NODE_ENV !== "test") {
                 console.log("Connected to %s", url);

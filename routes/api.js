@@ -1,10 +1,12 @@
 var express = require("express");
- var messageRouter = require("./message");
- var phoneUsersRouter = require("./phoneUsers");
+var whatsappRouter = require("./message");
+var messagesRouter = require("./messages");
+var phoneUsersRouter = require("./phoneUsers");
 
 var app = express();
 
-app.use("/message/", messageRouter);
+app.use("/message/", whatsappRouter);
+app.use("/messages/", messagesRouter);
 app.use("/phoneusers/", phoneUsersRouter);
 
 
