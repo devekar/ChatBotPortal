@@ -1,5 +1,7 @@
 const Message = require("../models/MessageModel");
 const PhoneUser = require("../models/PhoneUserModel")
+const db = require("../models/ContentModel")
+
 const { body,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
@@ -7,6 +9,7 @@ const apiResponse = require("../helpers/apiResponse");
 var mongoose = require("mongoose");
 var request = require('request');
 const PhoneUserModel = require("../models/PhoneUserModel");
+const RulesModel = require("../models/RulesModel");
 
 // Book Schema
 function MessageData(data) {
@@ -52,6 +55,7 @@ exports.sendResponse = [
             postData.text = {};
             postData.text.body='Hello welcome to turn the bus :)';
 
+            
             PhoneUserModel.findOne({phoneNo: sender}).then((phoneUser) =>{
             
                 var message = new Message({
@@ -65,28 +69,47 @@ exports.sendResponse = [
                 });
             });
 
+            db.Rule.findOne({trigger:phonetext}).then((rule) => {
+
+
+
+                if (rule){
+                     rule.populate('contents').then((rule1) =>{
+                         console.log(rule1);
+                        
+                    for (let idx in rule1.contents){
+                        postData.text.body = rule1.contents[idx].text;
+                        var clientServerOptions = {
+                            uri: process.env.WEBHOOK_URL,
+                            body: JSON.stringify(postData),
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization':'Bearer ' + process.env.API_TOKEN
+                            }
+                        }
+                        request(clientServerOptions, function (error, response) {
+                            if (!error && response.statusCode == 200) {
+                                console.log(error,response.body);
+                                return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                            } else {
+                                return apiResponse.ErrorResponse(res, error);
             
-            var clientServerOptions = {
-                uri: process.env.WEBHOOK_URL,
-                body: JSON.stringify(postData),
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':'Bearer ' + process.env.API_TOKEN
-                }
-            }
-            request(clientServerOptions, function (error, response) {
-                if (!error && response.statusCode == 200) {
-                    console.log(error,response.body);
-                    return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
-                } else {
-                    return apiResponse.ErrorResponse(res, error);
+                            }
+            
+                            
+                            return;
+                        });
 
-                }
+                    }
 
-                
-                return;
+                });
+                    
+                }
             });
+
+            
+           
                  
            
 		} catch (err) {
