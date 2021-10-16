@@ -4,10 +4,9 @@ import React from "react";
 import useStyles from "./styles";
 
 // components
-import PageTitle from "../../components/PageTitle/PageTitle";
 import Chat from "../../components/Chat";
 
-export default function TypographyPage() {
+export default function ChatPage() {
   var classes = useStyles();
 
   return (
