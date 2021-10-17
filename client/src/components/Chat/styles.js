@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 
-export default makeStyles(theme => ({
+export const styles = theme => ({
   table: {
     minWidth: 650,
   },
@@ -18,4 +18,4 @@ export default makeStyles(theme => ({
     height: '70vh',
     overflowY: 'auto'
   }
-}));
+});

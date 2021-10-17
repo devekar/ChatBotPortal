@@ -15,7 +15,7 @@ cd client
 npm start
 ```
 
-This starts the React app server at localhost:3000
+This starts the React app server at localhost:3000 and proxies the remote calls to localhost:3434
 
 
 ## Production

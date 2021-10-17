@@ -9,3 +9,5 @@ var RuleSchema = new Schema({
     contents: [{ type: Schema.Types.ObjectId, ref: 'Content' }]
 
 }, {timestamps: true});
+
+module.exports = mongoose.model("rules", RuleSchema);

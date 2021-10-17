@@ -9,7 +9,7 @@ const apiResponse = require("../helpers/apiResponse");
 var mongoose = require("mongoose");
 var request = require('request');
 const PhoneUserModel = require("../models/PhoneUserModel");
-const RulesModel = require("../models/RulesModel");
+const RulesModel = require("../models/RuleModel");
 
 // Book Schema
 function MessageData(data) {

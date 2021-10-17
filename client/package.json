@@ -22,6 +22,7 @@
     "@mui/x-data-grid": "^4.0.1",
     "@mui/x-data-grid-generator": "^4.0.1",
     "apexcharts": "^3.24.0",
+    "axios": "^0.23.0",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
     "mui-datatables": "^3.7.4",
@@ -42,6 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:3434",
   "eslintConfig": {
     "extends": "react-app"
   },
