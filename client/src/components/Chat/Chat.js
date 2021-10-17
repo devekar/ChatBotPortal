@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -11,7 +11,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import { styles } from "./styles";
-import { render } from 'ejs';
 import { withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 
@@ -54,6 +53,9 @@ class Chat extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const secondaryColor = {
+            color: "blue"
+        };
 
         return (
             <div>
@@ -68,13 +70,6 @@ class Chat extends React.Component {
                                     <ListItemText primary={phoneUser.name} />
                                 </ListItem>                               
                             )}
-
-                            <ListItem button key="Alice">
-                                <ListItemIcon>
-                                    <Avatar alt="Alice" />
-                                </ListItemIcon>
-                                <ListItemText primary="Alice">Alice</ListItemText>
-                            </ListItem>
                         </List>
                     </Grid>
 
@@ -84,10 +79,20 @@ class Chat extends React.Component {
                                 <ListItem key={index}>
                                     <Grid container>
                                         <Grid item xs={12}>
-                                            <ListItemText align="left" primary={message.text} />
+                                            {
+                                                message.reply ? 
+                                                <ListItemText align="right" primary={message.text} primaryTypographyProps={{ style: secondaryColor }} />
+                                                :
+                                                <ListItemText align="left" primary={message.text} />
+                                            }
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <ListItemText align="left" secondary={message.createdTime} />
+                                            {
+                                                message.reply ? 
+                                                <ListItemText align="right" secondary={message.createdTime} secondaryTypographyProps={{ style: secondaryColor }}  />
+                                                :
+                                                <ListItemText align="left" secondary={message.createdTime} />
+                                            }                                            
                                         </Grid>
                                     </Grid>
                                 </ListItem>            

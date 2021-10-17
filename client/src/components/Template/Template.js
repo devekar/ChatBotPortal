@@ -1,5 +1,4 @@
 import React from "react";
-import {useState} from "react";
 
 // styles
 import { styles } from "./styles";
@@ -13,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
+import Stack from '@mui/material/Stack';
 
 class Template extends React.Component {
   state = {
@@ -32,6 +32,10 @@ class Template extends React.Component {
     const { classes } = this.props;
 
     return (
+      <>
+      <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
+        <Button sx={{ mb: 20 }}  variant="contained">Add content template</Button>
+      </Stack>
       <Grid container spacing={2}>
         {this.state.templates.map(template =>
           <Grid item xs={6}>
@@ -63,6 +67,7 @@ class Template extends React.Component {
           </Grid>
         )}        
       </Grid>
+      </>
     );
   }
 }
