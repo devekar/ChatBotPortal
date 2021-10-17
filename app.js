@@ -10,16 +10,18 @@ const session = require('express-session');
 dotenv.config();
 const path = require('path');
 var apiRouter = require("./routes/api");
-var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var dbUtil = require("./helpers/dbUtil")
 
 
 // DB connection
-var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/testdb";
-console.log("Mango DB connection string ", MONGODB_URL);
+var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/";
+var MONGODB_DB = process.env.MONGODB_DB || "testdb"
 
-dbUtil.connectToServer(MONGODB_URL, function( err ) {
+console.log("Mongo DB connection string ", MONGODB_URL);
+console.log("Mongo DB database ", MONGODB_DB);
+
+dbUtil.connectToServer(MONGODB_URL, MONGODB_DB, function( err ) {
 	if (err) {
 		console.error("App starting error:", err.message);
         process.exit(1);
@@ -45,10 +47,10 @@ app.set('view engine', 'ejs')
 
 
 //Route Prefixes
-app.use("/", indexRouter);
 app.use("/api/", apiRouter);
 app.use("/auth", authRouter);
 
+/*
 app.use((req,res,next) => {
 	if(req.user) {
 		next();
@@ -56,9 +58,10 @@ app.use((req,res,next) => {
 		res.redirect('auth/signIn');
 	}
 });
+*/
 
 app.get('/', (req, res) => {
-    res.render('index', {title: 'TurnTheBus Virtual Assistant', data: ['a', 'b', 'c'] });
+    res.render('index', {title: 'TurnTheBus Virtual Assistant Portal', data: ['a', 'b', 'c'] });
 });
 
 app.listen(PORT, () => {

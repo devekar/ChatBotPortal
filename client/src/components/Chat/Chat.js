@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -17,15 +17,39 @@ import axios from 'axios';
 
 class Chat extends React.Component {
     state = {
-        phoneUsers: []
+        phoneUsers: [],
+        messages: [{text: "Click on a conversation on the left"}]
     }
     
     componentDidMount() {
-        axios.get(`/phoneusers`)
+        axios.get(`/api/phoneusers`)
             .then(res => {
-                const phoneUsers = res.data.data.children.map(obj => obj.data);
+                const phoneUsers = res.data;
                 this.setState({ phoneUsers });
             });
+        this.scrollToBottom()
+    }
+
+    getMessages(user) {
+        axios.get(`/api/messages`, { params: { user: user } })
+        .then(res => {
+            const messages = res.data.map(message => {
+                var createdAt = new Date(message.createdAt);
+                message.createdTime = createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+                return message;
+            });
+            this.setState({ messages });
+        });
+    }
+
+    componentDidUpdate () {
+        this.scrollToBottom()
+    }
+
+    messagesEndRef = React.createRef()
+
+    scrollToBottom = () => {
+        this.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     render() {
@@ -35,62 +59,42 @@ class Chat extends React.Component {
             <div>
                 <Grid container component={Paper} className={classes.chatSection}>            
                     <Grid item xs={3} className={classes.borderRight500}>
-
                         <List>
-                            <ListItem button key="RemySharp">
-                                <ListItemIcon>
-                                    <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                                </ListItemIcon>
-                                <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
-                            </ListItem>
+                            {this.state.phoneUsers.map(phoneUser =>
+                                <ListItem button key={phoneUser.name} onClick={()=>{this.getMessages(phoneUser._id)}}>
+                                    <ListItemIcon>
+                                        <Avatar alt={phoneUser.name} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={phoneUser.name} />
+                                </ListItem>                               
+                            )}
+
                             <ListItem button key="Alice">
                                 <ListItemIcon>
-                                    <Avatar alt="Alice" src="https://material-ui.com/static/images/avatar/3.jpg" />
+                                    <Avatar alt="Alice" />
                                 </ListItemIcon>
                                 <ListItemText primary="Alice">Alice</ListItemText>
-                            </ListItem>
-                            <ListItem button key="CindyBaker">
-                                <ListItemIcon>
-                                    <Avatar alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/2.jpg" />
-                                </ListItemIcon>
-                                <ListItemText primary="Cindy Baker">Cindy Baker</ListItemText>
                             </ListItem>
                         </List>
                     </Grid>
 
                     <Grid item xs={9}>
                         <List className={classes.messageArea}>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText align="right" primary="Hey man, What's up ?"></ListItemText>
+                            {this.state.messages.map((message, index) =>
+                                <ListItem key={index}>
+                                    <Grid container>
+                                        <Grid item xs={12}>
+                                            <ListItemText align="left" primary={message.text} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ListItemText align="left" secondary={message.createdTime} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText align="right" secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="2">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText align="left" primary="Hey, Iam Good! What about you ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText align="left" secondary="09:31"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="3">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText align="right" secondary="10:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
+                                </ListItem>            
+                            )}
+                            <div ref={this.messagesEndRef} />
                         </List>
+                        
                         <Divider />
                         <Grid container style={{padding: '20px'}}>
                             <Grid item xs={11}>
