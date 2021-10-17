@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var ContentSchema = new Schema({
 
-	key: {type: String, required: true},	
+	key: {type: String, unique: true, required: true},	
 	text: {type: String, required: true}
 }, {timestamps: true});
 
