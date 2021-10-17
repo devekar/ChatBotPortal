@@ -16,6 +16,8 @@ exports.successResponseWithData = function (res, msg, data) {
 };
 
 exports.ErrorResponse = function (res, msg) {
+	console.log('err', msg);
+
 	var data = {
 		status: 0,
 		message: msg,
