@@ -20,7 +20,7 @@ This starts the React app server at localhost:3000 and proxies the remote calls 
 
 ## Production
 
-In production environment we will be running only Node Js Server. Node default route will load the static resource from resources folder. 
+In production environment we will be running only Node Js Server. We have to compile the client Js files and copy the generated files in build folder to resources folder in chatbotService. Node default route will load the index.hmtl from the compiled files which will bootstrap react.
 
 React:
 First, run the following command by changing into the client directory to build the React project.
