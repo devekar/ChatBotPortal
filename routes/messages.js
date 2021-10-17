@@ -1,8 +1,8 @@
 var express = require("express");
-const MessagesService = require("../controllers/MessagesService");
+const MessageService = require("../controllers/MessageService");
 
 var router = express.Router();
 
-router.get("/", MessagesService.sendResponse);
+router.get("/", MessageService.get);
 
 module.exports = router;

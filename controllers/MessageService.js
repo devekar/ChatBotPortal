@@ -2,7 +2,7 @@ const PhoneUserModel = require("../models/PhoneUserModel");
 const MessageModel = require("../models/MessageModel");
 const apiResponse = require("../helpers/apiResponse");
 
-exports.sendResponse = [
+exports.get = [
 	(req, res) => {
 		try {
             PhoneUserModel.findById(req.query.user).exec(function(err, user){
