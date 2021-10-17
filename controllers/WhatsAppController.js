@@ -3,6 +3,7 @@ const PhoneUser = require("../models/PhoneUserModel")
 const Content = require("../models/ContentModel")
 const Rule = require("../models/RuleModel")
 const AutoReply = require("../models/AutoReplyModel")
+const Translator = require("../helpers/translator")
 
 const { body,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -10,6 +11,11 @@ const apiResponse = require("../helpers/apiResponse");
 //const auth = require("../middlewares/jwt");
 var mongoose = require("mongoose");
 var request = require('request');
+const uuidv4 = require('uuid/v4');
+
+var subscriptionKey = process.env.TRANSLATOR_TEXT_SUBSCRIPTION_KEY;
+var endpoint = process.env.TRANSLATOR_TEXT_ENDPOINT;
+var region = process.env.TRANSLATOR_TEXT_REGION_AKA_LOCATION;
 
 // Book Schema
 function MessageData(data) {
@@ -57,7 +63,26 @@ exports.sendResponse = [
             postData.text = {};
             postData.text.body='Hello welcome to turn the bus :)';
 
-            
+            let translatorOptions = {
+                method: 'POST',
+                baseUrl: endpoint,
+                url: 'translate',
+                qs: {
+                  'api-version': '3.0',
+                  'to': ['hi', 'ta']
+                },
+                headers: {
+                  'Ocp-Apim-Subscription-Key': subscriptionKey,
+                  'Ocp-Apim-Subscription-Region': region,
+                  'Content-type': 'application/json',
+                  'X-ClientTraceId': uuidv4().toString()
+                },
+                body: [{
+                      'text': "This will be changed with the actual data"
+                }],
+                json: true,
+            };
+
             PhoneUser.findOne({phoneNo: sender}).then((phoneUser) =>{
 
                 if (!phoneUser){
@@ -93,40 +118,48 @@ exports.sendResponse = [
                              console.log(rule1);
                             
                         for (let idx in rule1.contents){
-                            postData.text.body = rule1.contents[idx].text;
-    
-                            let reply = new AutoReply({
-                                text: postData.text.body,
-                                user: phoneUser
-    
-                            });
-                            reply.save(function(err){
-                                if (err) {
-                                    console.log('failed to save auto reply');
+                            translatorOptions.body[0].text = rule1.contents[idx].text;
+                            request(translatorOptions, function(err, res, body){
+                                if(err) {
+                                    console.error(`translation request failed. Error is ${err.toString()}`);
                                 }
-                            });
-    
-                            var clientServerOptions = {
-                                uri: process.env.WEBHOOK_URL,
-                                body: JSON.stringify(postData),
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization':'Bearer ' + process.env.API_TOKEN
+                                console.log(JSON.stringify(body, null, 4));
+                                postData.text.body = body.translations[0].text;
+
+                                let reply = new AutoReply({
+                                    text: postData.text.body,
+                                    user: phoneUser
+        
+                                });
+                                reply.save(function(err){
+                                    if (err) {
+                                        console.log('failed to save auto reply');
+                                    }
+                                });
+        
+                                var clientServerOptions = {
+                                    uri: process.env.WEBHOOK_URL,
+                                    body: JSON.stringify(postData),
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization':'Bearer ' + process.env.API_TOKEN
+                                    }
                                 }
-                            }
-                            request(clientServerOptions, function (error, response) {
-                                if (!error && response.statusCode == 200) {
-                                    console.log(error,response.body);
-                                    return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
-                                } else {
-                                    return apiResponse.ErrorResponse(res, error);
-                
-                                }
-                
-                                
-                                return;
+                                request(clientServerOptions, function (error, response) {
+                                    if (!error && response.statusCode == 200) {
+                                        console.log(error,response.body);
+                                        return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                                    } else {
+                                        return apiResponse.ErrorResponse(res, error);
+                    
+                                    }
+                    
+                                    
+                                    return;
+                                });
                             });
+
     
                         }
     
@@ -140,42 +173,49 @@ exports.sendResponse = [
                                     console.log(rule1);
                                    
                                for (let idx in rule1.contents){
-                                   postData.text.body = rule1.contents[idx].text;
-    
-    
-                                    let reply = new AutoReply({
-                                        text: postData.text.body,
-                                        user: phoneUser
-        
-                                    });
-                                    reply.save(function(err){
-                                        if (err) {
-                                            console.log('failed to save auto reply');
+                                    translatorOptions.body[0].text = rule1.contents[idx].text;
+                                    request(translatorOptions, function(err, res, body){
+                                        if(err) {
+                                            console.error(`translation request failed. Error is ${err.toString()}`);
                                         }
+                                        console.log(JSON.stringify(body, null, 4));
+                                        postData.text.body = body.translations[0].text;
+    
+    
+                                        let reply = new AutoReply({
+                                            text: postData.text.body,
+                                            user: phoneUser
+            
+                                        });
+                                        reply.save(function(err){
+                                            if (err) {
+                                                console.log('failed to save auto reply');
+                                            }
+                                        });
+        
+        
+                                    var clientServerOptions = {
+                                        uri: process.env.WEBHOOK_URL,
+                                        body: JSON.stringify(postData),
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization':'Bearer ' + process.env.API_TOKEN
+                                        }
+                                    }
+                                    request(clientServerOptions, function (error, response) {
+                                        if (!error && response.statusCode == 200) {
+                                            console.log(error,response.body);
+                                            return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                                        } else {
+                                            return apiResponse.ErrorResponse(res, error);
+                        
+                                        }
+                        
+                                        
+                                        return;
                                     });
-    
-    
-                                   var clientServerOptions = {
-                                       uri: process.env.WEBHOOK_URL,
-                                       body: JSON.stringify(postData),
-                                       method: 'POST',
-                                       headers: {
-                                           'Content-Type': 'application/json',
-                                           'Authorization':'Bearer ' + process.env.API_TOKEN
-                                       }
-                                   }
-                                   request(clientServerOptions, function (error, response) {
-                                       if (!error && response.statusCode == 200) {
-                                           console.log(error,response.body);
-                                           return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
-                                       } else {
-                                           return apiResponse.ErrorResponse(res, error);
-                       
-                                       }
-                       
-                                       
-                                       return;
-                                   });
+                                });
            
                                }
            

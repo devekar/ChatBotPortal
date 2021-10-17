@@ -18,6 +18,19 @@ var dbUtil = require("./helpers/dbUtil")
 var MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/";
 var MONGODB_DB = process.env.MONGODB_DB || "testdb"
 
+var key_var = 'TRANSLATOR_TEXT_SUBSCRIPTION_KEY';
+if (!process.env[key_var]) {
+    throw new Error('Please set/export the following environment variable: ' + key_var);
+}
+var endpoint_var = 'TRANSLATOR_TEXT_ENDPOINT';
+if (!process.env[endpoint_var]) {
+    throw new Error('Please set/export the following environment variable: ' + endpoint_var);
+}
+var region_var = 'TRANSLATOR_TEXT_REGION_AKA_LOCATION';
+if (!process.env[region_var]) {
+    throw new Error('Please set/export the following environment variable: ' + region_var);
+}
+
 console.log("Mongo DB connection string ", MONGODB_URL);
 console.log("Mongo DB database ", MONGODB_DB);
 
