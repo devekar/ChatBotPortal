@@ -1,6 +1,7 @@
 const Message = require("../models/MessageModel");
 const PhoneUser = require("../models/PhoneUserModel")
-const db = require("../models/ContentModel")
+const Content = require("../models/ContentModel")
+const Rule = require("../models/RuleModel")
 
 const { body,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -69,7 +70,7 @@ exports.sendResponse = [
                 });
             });
 
-            db.Rule.findOne({trigger:phonetext}).then((rule) => {
+            Rule.findOne({trigger:phonetext}).then((rule) => {
 
 
 

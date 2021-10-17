@@ -10,4 +10,4 @@ var RuleSchema = new Schema({
 
 }, {timestamps: true});
 
-module.exports = mongoose.model("rules", RuleSchema);
+module.exports = mongoose.model("Rule", RuleSchema);

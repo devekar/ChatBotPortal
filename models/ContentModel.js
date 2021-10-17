@@ -8,4 +8,4 @@ var ContentSchema = new Schema({
 	text: {type: String, required: true}
 }, {timestamps: true});
 
-module.exports = mongoose.model("contents", ContentSchema);
+module.exports = mongoose.model("Content", ContentSchema);

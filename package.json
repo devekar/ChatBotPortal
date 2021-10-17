@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set DEBUG=app & node app.js",
-    "debug": "set DEBUG=* & nodemon --inspect app.js",
+    "start": "set DEBUG=app && set PORT=3434 && node app.js",
+    "debug": "set DEBUG=* && set PORT=3434 && nodemon --inspect app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -4,13 +4,16 @@ const apiResponse = require("../helpers/apiResponse");
 exports.get = [
 	(req, res) => {
 		try {
-            ContentModel.find().exec(function(err, users){
-                console.log('users : ', users);
-                console.log('err', err);
-                return res.send(users);
-            }).catch(function(err) {
-				return apiResponse.ErrorResponse(res, err);
-			});
+            ContentModel.find().exec(function(err, contents){
+                console.log('content : ', contents);
+				let contentdata = contents.map(content => {
+					return {
+					"key" : content.key,
+					"text" : content.text
+					};
+				});
+                return res.status(200).json(contentdata);
+            });
 		} catch (err) {
 			//throw error in json response with status 500. 
 			return apiResponse.ErrorResponse(res, err);
