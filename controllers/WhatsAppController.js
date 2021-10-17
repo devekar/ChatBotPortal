@@ -2,6 +2,7 @@ const Message = require("../models/MessageModel");
 const PhoneUser = require("../models/PhoneUserModel")
 const Content = require("../models/ContentModel")
 const Rule = require("../models/RuleModel")
+const AutoReply = require("../models/AutoReplyModel")
 
 const { body,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
@@ -68,47 +69,110 @@ exports.sendResponse = [
                     if (err) { return apiResponse.ErrorResponse(res, err); }
                     
                 });
-            });
-
-            Rule.findOne({trigger:phonetext}).then((rule) => {
+                Rule.findOne({trigger:phonetext}).then((rule) => {
 
 
 
-                if (rule){
-                     rule.populate('contents').then((rule1) =>{
-                         console.log(rule1);
-                        
-                    for (let idx in rule1.contents){
-                        postData.text.body = rule1.contents[idx].text;
-                        var clientServerOptions = {
-                            uri: process.env.WEBHOOK_URL,
-                            body: JSON.stringify(postData),
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization':'Bearer ' + process.env.API_TOKEN
-                            }
-                        }
-                        request(clientServerOptions, function (error, response) {
-                            if (!error && response.statusCode == 200) {
-                                console.log(error,response.body);
-                                return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
-                            } else {
-                                return apiResponse.ErrorResponse(res, error);
-            
-                            }
-            
+                    if (rule){
+                         rule.populate('contents').then((rule1) =>{
+                             console.log(rule1);
                             
-                            return;
+                        for (let idx in rule1.contents){
+                            postData.text.body = rule1.contents[idx].text;
+    
+                            let reply = new AutoReply({
+                                text: postData.text.body,
+                                user: phoneUser
+    
+                            });
+                            reply.save(function(err){
+                                if (err) {
+                                    console.log('failed to save auto reply');
+                                }
+                            });
+    
+                            var clientServerOptions = {
+                                uri: process.env.WEBHOOK_URL,
+                                body: JSON.stringify(postData),
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization':'Bearer ' + process.env.API_TOKEN
+                                }
+                            }
+                            request(clientServerOptions, function (error, response) {
+                                if (!error && response.statusCode == 200) {
+                                    console.log(error,response.body);
+                                    return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                                } else {
+                                    return apiResponse.ErrorResponse(res, error);
+                
+                                }
+                
+                                
+                                return;
+                            });
+    
+                        }
+    
+                    });
+                        
+                    } else {
+                        Rule.findOne({trigger:"catchall"}).then((rule) => {
+    
+                            if (rule){
+                                rule.populate('contents').then((rule1) =>{
+                                    console.log(rule1);
+                                   
+                               for (let idx in rule1.contents){
+                                   postData.text.body = rule1.contents[idx].text;
+    
+    
+                                    let reply = new AutoReply({
+                                        text: postData.text.body,
+                                        user: phoneUser
+        
+                                    });
+                                    reply.save(function(err){
+                                        if (err) {
+                                            console.log('failed to save auto reply');
+                                        }
+                                    });
+    
+    
+                                   var clientServerOptions = {
+                                       uri: process.env.WEBHOOK_URL,
+                                       body: JSON.stringify(postData),
+                                       method: 'POST',
+                                       headers: {
+                                           'Content-Type': 'application/json',
+                                           'Authorization':'Bearer ' + process.env.API_TOKEN
+                                       }
+                                   }
+                                   request(clientServerOptions, function (error, response) {
+                                       if (!error && response.statusCode == 200) {
+                                           console.log(error,response.body);
+                                           return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                                       } else {
+                                           return apiResponse.ErrorResponse(res, error);
+                       
+                                       }
+                       
+                                       
+                                       return;
+                                   });
+           
+                               }
+           
+                           });
+                          }
+    
                         });
-
                     }
-
                 });
-                    
-                }
+    
             });
-
+            
             
            
                  
