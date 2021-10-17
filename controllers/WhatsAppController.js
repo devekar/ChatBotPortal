@@ -3,7 +3,6 @@ const PhoneUser = require("../models/PhoneUserModel")
 const Content = require("../models/ContentModel")
 const Rule = require("../models/RuleModel")
 const AutoReply = require("../models/AutoReplyModel")
-const Translator = require("../helpers/translator")
 
 const { body,validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
