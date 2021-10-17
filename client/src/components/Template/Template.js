@@ -2,47 +2,70 @@ import React from "react";
 import {useState} from "react";
 
 // styles
-import useStyles from "./styles";
+import { styles } from "./styles";
 
 // components
+import { Grid } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import axios from 'axios';
 
-export default function Template(props) {
-  var classes = useStyles();
+class Template extends React.Component {
+  state = {
+    templates: [],
+    editing: false
+  }
 
-  const [editing, setEditing] = useState(false);
+  componentDidMount() {
+    axios.get(`/api/contents`)
+        .then(res => {
+            const templates = res.data;
+            this.setState({ templates });
+        });
+  }
 
-  return (
-    <Card className={classes.root} variant="outlined">
-      <CardContent>
-        { editing ? (
-          <textarea>
-            editing
-          </textarea>
-        ) : (
-          <div>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              Word of the Day
-            </Typography>
-            <Typography>Name: 'RAAM'</Typography>
-            <Typography>Blood group: 'AB+'</Typography>
-            <Typography>"Patient Ram is having bloodgroup AB+"</Typography>
-          </div>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => setEditing(true)}>
-          Edit
-        </Button>
-      </CardActions>
-    </Card>
-  );
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <Grid container spacing={2}>
+        {this.state.templates.map(template =>
+          <Grid item xs={6}>
+            <Card className={classes.root} variant="outlined">
+              <CardContent>
+                { this.state.editing ? (
+                  <textarea>
+                    editing
+                  </textarea>
+                ) : (
+                  <div>
+                    <Typography variant="h3"
+                      className={classes.title}
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                      {template.key}
+                    </Typography>
+                    <Typography>{template.text}</Typography>
+                  </div>
+                )}
+              </CardContent>
+              <CardActions>
+                <Button size="small" onClick={() => this.setState({editing: true})}>
+                  Edit
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        )}        
+      </Grid>
+    );
+  }
 }
+
+
+export default withStyles(styles, { withTheme: true })(Template);
