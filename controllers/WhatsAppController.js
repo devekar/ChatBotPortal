@@ -40,7 +40,7 @@ exports.sendResponse = [
 			const errors = validationResult(req);
             var msg = req.body;
 
-            console.log('received message ' + msg);
+            console.log('received message ' + JSON.stringify(msg));
 
             var sender = msg.contacts[0].wa_id;
 
@@ -64,7 +64,7 @@ exports.sendResponse = [
                     phoneUser = new PhoneUser({
                         "name": owner,
                         "phoneNo": sender,
-                        "status": "opt-in"
+                        "status": "opt-out"
                     })
                     phoneUser.save(function (err){
                         if (!err){
@@ -74,117 +74,127 @@ exports.sendResponse = [
                        
                     });
                 }
-            
-                var message = new Message({
-                    text: phonetext,
-                    user: phoneUser
 
-                });
-                message.save(function (err) {
-                    if (err) { return apiResponse.ErrorResponse(res, err); }
-                    
-                });
-                Rule.findOne({trigger:phonetext}).then((rule) => {
+                if ( phoneUser.status == "opt-in"){
 
-
-
-                    if (rule){
-                         rule.populate('contents').then((rule1) =>{
-                             console.log(rule1);
-                            
-                        for (let idx in rule1.contents){
-                            postData.text.body = rule1.contents[idx].text;
-    
-                            let reply = new AutoReply({
-                                text: postData.text.body,
-                                user: phoneUser
-    
-                            });
-                            reply.save(function(err){
-                                if (err) {
-                                    console.log('failed to save auto reply');
-                                }
-                            });
-    
-                            var clientServerOptions = {
-                                uri: process.env.WEBHOOK_URL,
-                                body: JSON.stringify(postData),
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization':'Bearer ' + process.env.API_TOKEN
-                                }
-                            }
-                            request(clientServerOptions, function (error, response) {
-                                if (!error && response.statusCode == 200) {
-                                    console.log(error,response.body);
-                                    return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
-                                } else {
-                                    return apiResponse.ErrorResponse(res, error);
-                
-                                }
-                
-                                
-                                return;
-                            });
-    
-                        }
+                    var message = new Message({
+                        text: phonetext,
+                        user: phoneUser
     
                     });
+                    message.save(function (err) {
+                        if (err) { return apiResponse.ErrorResponse(res, err); }
                         
-                    } else {
-                        Rule.findOne({trigger:"catchall"}).then((rule) => {
-    
-                            if (rule){
-                                rule.populate('contents').then((rule1) =>{
-                                    console.log(rule1);
-                                   
-                               for (let idx in rule1.contents){
-                                   postData.text.body = rule1.contents[idx].text;
+                    });
+                    Rule.findOne({trigger:phonetext}).then((rule) => {
     
     
-                                    let reply = new AutoReply({
-                                        text: postData.text.body,
-                                        user: phoneUser
+    
+                        if (rule){
+                             rule.populate('contents').then((rule1) =>{
+                                 console.log(rule1);
+                                
+                            for (let idx in rule1.contents){
+                                postData.text.body = rule1.contents[idx].text;
         
-                                    });
-                                    reply.save(function(err){
-                                        if (err) {
-                                            console.log('failed to save auto reply');
-                                        }
-                                    });
-    
-    
-                                   var clientServerOptions = {
-                                       uri: process.env.WEBHOOK_URL,
-                                       body: JSON.stringify(postData),
-                                       method: 'POST',
-                                       headers: {
-                                           'Content-Type': 'application/json',
-                                           'Authorization':'Bearer ' + process.env.API_TOKEN
-                                       }
-                                   }
-                                   request(clientServerOptions, function (error, response) {
-                                       if (!error && response.statusCode == 200) {
-                                           console.log(error,response.body);
-                                           return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
-                                       } else {
-                                           return apiResponse.ErrorResponse(res, error);
-                       
-                                       }
-                       
-                                       
-                                       return;
-                                   });
-           
-                               }
-           
-                           });
-                          }
-    
+                                let reply = new AutoReply({
+                                    text: postData.text.body,
+                                    user: phoneUser
+        
+                                });
+                                reply.save(function(err){
+                                    if (err) {
+                                        console.log('failed to save auto reply');
+                                    }
+                                });
+        
+                                var clientServerOptions = {
+                                    uri: process.env.WEBHOOK_URL,
+                                    body: JSON.stringify(postData),
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization':'Bearer ' + process.env.API_TOKEN
+                                    }
+                                }
+                                request(clientServerOptions, function (error, response) {
+                                    if (!error && response.statusCode == 200) {
+                                        console.log(error,response.body);
+                                        return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                                    } else {
+                                        return apiResponse.ErrorResponse(res, error);
+                    
+                                    }
+                    
+                                    
+                                    return;
+                                });
+        
+                            }
+        
                         });
-                    }
-                });
+                            
+                        } else {
+                            Rule.findOne({trigger:"catchall"}).then((rule) => {
+        
+                                if (rule){
+                                    rule.populate('contents').then((rule1) =>{
+                                        console.log(rule1);
+                                       
+                                   for (let idx in rule1.contents){
+                                       postData.text.body = rule1.contents[idx].text;
+        
+        
+                                        let reply = new AutoReply({
+                                            text: postData.text.body,
+                                            user: phoneUser
+            
+                                        });
+                                        reply.save(function(err){
+                                            if (err) {
+                                                console.log('failed to save auto reply');
+                                            }
+                                        });
+        
+        
+                                       var clientServerOptions = {
+                                           uri: process.env.WEBHOOK_URL,
+                                           body: JSON.stringify(postData),
+                                           method: 'POST',
+                                           headers: {
+                                               'Content-Type': 'application/json',
+                                               'Authorization':'Bearer ' + process.env.API_TOKEN
+                                           }
+                                       }
+                                       request(clientServerOptions, function (error, response) {
+                                           if (!error && response.statusCode == 200) {
+                                               console.log(error,response.body);
+                                               return apiResponse.successResponse(res, "Successfully send message  to " + sender);                
+                                           } else {
+                                               return apiResponse.ErrorResponse(res, error);
+                           
+                                           }
+                           
+                                           
+                                           return;
+                                       });
+               
+                                   }
+               
+                               });
+                              }
+        
+                            });
+                        }
+                    });
+
+
+
+                } else {
+                    return apiResponse.successResponse(res, 'message not sent user ' + sender + ' opted not to send messages');
+                }
+            
+                
     
             });
             
