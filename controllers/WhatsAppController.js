@@ -10,8 +10,6 @@ const apiResponse = require("../helpers/apiResponse");
 //const auth = require("../middlewares/jwt");
 var mongoose = require("mongoose");
 var request = require('request');
-const PhoneUserModel = require("../models/PhoneUserModel");
-const RulesModel = require("../models/RuleModel");
 
 // Book Schema
 function MessageData(data) {
@@ -58,7 +56,22 @@ exports.sendResponse = [
             postData.text.body='Hello welcome to turn the bus :)';
 
             
-            PhoneUserModel.findOne({phoneNo: sender}).then((phoneUser) =>{
+            PhoneUser.findOne({phoneNo: sender}).then((phoneUser) =>{
+
+                if (!phoneUser){
+                    phoneUser = new PhoneUser({
+                        "name": owner,
+                        "phoneNo": sender,
+                        "status": "opt-in"
+                    })
+                    phoneUser.save(function (err){
+                        if (!err){
+                            console.log('failed to save user with PhoneNo ' + sender);
+
+                        }
+                       
+                    });
+                }
             
                 var message = new Message({
                     text: phonetext,
