@@ -40,6 +40,8 @@ exports.sendResponse = [
 			const errors = validationResult(req);
             var msg = req.body;
 
+            console.log('received message ' + msg);
+
             var sender = msg.contacts[0].wa_id;
 
             var phonetext = msg.messages[0].text.body;
