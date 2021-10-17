@@ -32,7 +32,10 @@ const PORT = process.env.PORT || 5454; //get environment variable passed from pa
 const app = express();
 
 app.use(morgan('tiny'));
-app.use(express.static(path.join(__dirname, '/public/'))); // specify directory for web pages
+//app.use(express.static(path.join(__dirname, '/public/'))); // specify directory for web pages
+
+
+app.use(express.static(process.cwd()+"/resources/"));
 // parse application/json
 app.use(express.json())
 
@@ -60,9 +63,10 @@ app.use((req,res,next) => {
 });
 */
 
-app.get('/', (req, res) => {
-    res.render('index', {title: 'TurnTheBus Virtual Assistant Portal', data: ['a', 'b', 'c'] });
-});
+
+app.get('/', (req,res) => {
+	res.sendFile(process.cwd()+"/resources/index.html");
+  });
 
 app.listen(PORT, () => {
     debug(`Listening to ${chalk.green(PORT)}`);
