@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { createTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import { randomPrice } from '@mui/x-data-grid-generator';
+import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import Button from "@material-ui/core/Button";
 
 const defaultTheme = createTheme();
 
@@ -27,59 +29,15 @@ const useStyles = makeStyles(
 );
 
 const columns = [
-  { field: 'expense', headerName: 'Expense', width: 160, editable: true },
-  {
-    field: 'price',
-    headerName: 'Price',
-    type: 'number',
-    width: 120,
-    editable: true,
-  },
-  { field: 'dueAt', headerName: 'Due at', type: 'date', width: 160, editable: true },
-  {
-    field: 'isPaid',
-    headerName: 'Is paid?',
-    type: 'boolean',
-    width: 140,
-    editable: true,
-  },
-  {
-    field: 'paidAt',
-    headerName: 'Paid at',
-    type: 'date',
-    width: 160,
-    editable: true,
-  }
-];
-
-const rows = [
-  {
-    id: 1,
-    expense: 'Light bill',
-    price: randomPrice(0, 1000),
-    dueAt: new Date(2021, 6, 8),
-    isPaid: false,
-  },
-  {
-    id: 2,
-    expense: 'Rent',
-    price: randomPrice(0, 1000),
-    dueAt: new Date(2021, 7, 1),
-    isPaid: false,
-  },
-  {
-    id: 3,
-    expense: 'Car insurance',
-    price: randomPrice(0, 1000),
-    dueAt: new Date(2021, 7, 4),
-    isPaid: true,
-    paidAt: new Date(2021, 7, 2),
-  },
+  { field: 'name', headerName: 'Name', width: 160, editable: false },
+  { field: 'trigger', headerName: 'Trigger word', width: 160, editable: true },
+  { field: 'ContentKeys', headerName: 'Content template', width: 200, editable: true },
 ];
 
 export default function ConditionalValidationGrid() {
   const classes = useStyles();
   const [editRowsModel, setEditRowsModel] = React.useState({});
+  const [rows, setRows] = React.useState([]);
 
   const handleEditRowsModelChange = React.useCallback((newModel) => {
     const updatedModel = { ...newModel };
@@ -91,16 +49,32 @@ export default function ConditionalValidationGrid() {
     setEditRowsModel(updatedModel);
   }, []);
 
+  useEffect(() => {
+    axios.get(`/api/rules`)
+        .then(res => {
+            const templates = res.data;
+            templates.map((t, index) => {
+              t.id = index;
+            });
+            setRows(templates);
+        });
+  }, []);
+
   return (
-    <div style={{ height: 400 }}>
-      <DataGrid
-        className={classes.root}
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        editRowsModel={editRowsModel}
-        onEditRowsModelChange={handleEditRowsModelChange}
-      />
-    </div>
+    <>
+      <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
+        <Button sx={{ mb: 20 }}  variant="contained">Add rule</Button>
+      </Stack>
+      <div style={{ height: 400 }}>
+        <DataGrid
+          className={classes.root}
+          rows={rows}
+          columns={columns}
+          editMode="row"
+          editRowsModel={editRowsModel}
+          onEditRowsModelChange={handleEditRowsModelChange}
+        />
+      </div>
+    </>
   );
 }
