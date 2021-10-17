@@ -20,3 +20,21 @@ This starts the React app server at localhost:3000 and proxies the remote calls 
 
 ## Production
 
+In production environment we will be running only Node Js Server. Node default route will load the static resource from resources folder. 
+
+React:
+First, run the following command by changing into the client directory to build the React project.
+npm run build
+It compiles the project and puts all the build assets under the folder called build.
+
+Copy the files in build folder to resources folder under ChatbotService
+
+commit the change
+
+Run the following command to deploy changes to App Service
+
+git push azure master
+
+
+
+
