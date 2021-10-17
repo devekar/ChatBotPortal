@@ -17,9 +17,9 @@ exports.get = [
 		} catch (err) {
 			//throw error in json response with status 500. 
 			return apiResponse.ErrorResponse(res, err);
-		}
-	}
-];
+		};
+	
+},
 
 
 exports.create = (req, res) => {
@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 		//throw error in json response with status 500. 
 		return apiResponse.ErrorResponse(res, err);
 	}
-};
+},
 
 exports.update = (req, res) => {
 	ContentModel.findByIdAndUpdate(req.params.id, req.body).then(data => {
@@ -47,7 +47,7 @@ exports.update = (req, res) => {
 	}).catch(function(err) {
 		return apiResponse.ErrorResponse(res, err);
 	});
-};
+},
 
 exports.delete  = (req, res) => {
 	ContentModel.findByIdAndDelete(req.params.id).then(data => {
@@ -59,4 +59,4 @@ exports.delete  = (req, res) => {
 	}).catch(function(err) {
 		return apiResponse.ErrorResponse(res, err);
 	});
-};
+}];
